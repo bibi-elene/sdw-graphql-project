@@ -1,0 +1,24 @@
+{
+  "name": "sdw-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "npm start --prefix back",
+    "client": "npm start --prefix front",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bibi-elene/sdw-graphql-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bibi-elene/sdw-graphql-project/issues"
+  },
+  "homepage": "https://github.com/bibi-elene/sdw-graphql-project#readme"
+}
