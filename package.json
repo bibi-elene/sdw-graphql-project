@@ -1,17 +1,13 @@
 {
-  "homepage": "https://bibi-elene.github.io/sdw-project",
   "name": "sdw-project",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npm start --prefix back",
     "client": "npm start --prefix front",
     "dev": "concurrently \"npm run server\" \"npm run client\""
-
   },
   "repository": {
     "type": "git",
@@ -23,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/bibi-elene/sdw-graphql-project/issues"
   },
-  "homepage": "https://github.com/bibi-elene/sdw-graphql-project#readme"
+  "homepage": "https://github.com/bibi-elene/sdw-graphql-project#readme",
+  "dependencies": {
+    "": "^6.4.1"
+  }
 }

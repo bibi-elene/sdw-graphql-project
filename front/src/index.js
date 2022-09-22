@@ -1,31 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Home from './pages/Home';
-import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import App from "./App.js";
+import { BrowserRouter } from 'react-router-dom';
 
-/*
-
-*/
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache(),
 });
 
-const App = () => (
-    <ApolloProvider client={client}>
-      <Home />
-    </ApolloProvider>
-)
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <App />
+      <ApolloProvider client={client}>
+        <App />
+    </ApolloProvider>
   </React.StrictMode>
 );
-
-reportWebVitals();
