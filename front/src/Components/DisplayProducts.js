@@ -25,6 +25,13 @@ render(){
         <img alt="product-image" src={item.gallery[0]} width="100"></img> 
         <p>Category: {item.category} </p> 
         <p>Brand: {item.brand} </p> 
+        <p>Price: 
+          {item.prices.map(({amount, currency}) => 
+          (<span>
+          {amount + " "}{currency.label}<br/>
+          </span>))
+          }
+        </p> 
         <br />
       </div>
       </section>

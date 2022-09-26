@@ -25,6 +25,10 @@ export const GET_All_PRODUCTS = gql`
                 }
               }
               prices{
+                currency {
+                  label
+                  symbol
+                }
                 amount
               }
               brand
