@@ -1,6 +1,7 @@
 import {GET_CATEGORY} from './Queries';
 import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
+import {Link} from 'react-router-dom';
 
 export class Header extends Component {
     render() {
@@ -13,13 +14,12 @@ export class Header extends Component {
 
             return data.categories.map((item, index) => (
             <section key={index} style={{display: "inline-block"}}>
-                <div style={{padding: "0 10px"}}>{item.name.toUpperCase()}</div>
+                <Link to={item.name == 'all' ? '/' : `/${item.name}`}><div style={{padding: "0 10px"}}>{item.name.toUpperCase()}</div></Link>
             </section>
             ))
                 }}
 
                  </Query>
-
         )
     }
 }

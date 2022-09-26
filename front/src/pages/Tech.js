@@ -1,12 +1,14 @@
 import {GET_TECH} from '../Components/Queries';
 import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
+import Header from '../Components/Header';
 
 export class Tech extends Component {
   
     render(){
         return ( 
-    
+          <>
+          <Header />
             <Query key={"key"} query={GET_TECH}>
     
             {({ loading, error, data }) => {
@@ -30,6 +32,7 @@ export class Tech extends Component {
         ))
     }}
         </Query>
+        </>
         )}
       }
     

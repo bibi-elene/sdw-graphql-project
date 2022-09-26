@@ -9,6 +9,8 @@ import {
   Link,
   Routes
 } from "react-router-dom";
+import Clothes from './Pages/Clothes';
+import Tech from './Pages/Tech';
 
 
 const client = new ApolloClient({
@@ -20,7 +22,12 @@ class App extends Component {
 
   render() {
     return (
-    <Home />
+    <Routes>
+   <Route path="/" element={<Home />} />
+   <Route path="/Clothes" element={<Clothes />} />
+   <Route path="/Tech" element={<Tech />} />
+
+    </Routes>
     )
   }
 
