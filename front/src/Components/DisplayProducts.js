@@ -1,12 +1,19 @@
 import {GET_All_PRODUCTS} from './Queries';
 import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
+import {connect} from 'react-redux';
+
 
 //backgroundImage: `url(${gallery})`
+//<p>inStock: {item.inStock ? "true" : "false"}</p> 
+
 
 export class DisplayProducts extends Component {
   
 render(){
+
+console.log(this.props.currency)
+
     return ( 
 
         <Query key={"key"} query={GET_All_PRODUCTS}>
@@ -17,18 +24,14 @@ render(){
             if (data.category === undefined) return null;
 
     return data.category.products.map(( item, index) => (
-    <section key={index} style={{width: "100%"}}>  
-      <div style={{margin: "50px", width: "18%", height: "50vh", float: "left", border: "1px solid grey", padding: "15px 50px"}}>
-        <h3>ID : {item.id}</h3>
-        <p>Name: {item.name} </p>
-        <p>inStock: {item.inStock ? "true" : "false"}</p> 
-        <img alt="product-image" src={item.gallery[0]} width="100"></img> 
-        <p>Category: {item.category} </p> 
-        <p>Brand: {item.brand} </p> 
-        <p>Price: 
+    <section key={index}  style={{width: "100%"}}>  
+      <div style={{margin: "50px", width: "14%", height: "40vh", float: "left", padding: "15px 50px"}}>
+        <img src={item.gallery[0]} width="100%" height="200px"></img>
+        <p>{item.name} </p>
+        <p>
           {item.prices.map(({amount, currency}) => 
-          (<span>
-          {amount + " "}{currency.label}<br/>
+          (<span key={currency.label} style={{fontWeight: "900", position: "absolute"}}>
+          { currency.label == this.props.currency ? currency.symbol + amount : null}<br/>
           </span>))
           }
         </p> 
@@ -42,4 +45,10 @@ render(){
     )}
   }
 
-  export default DisplayProducts;
+  function mapStateProps(state){
+    return{
+        currency: state.currency
+    };
+}
+
+  export default connect(mapStateProps)(DisplayProducts);

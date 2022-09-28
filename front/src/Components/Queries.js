@@ -107,3 +107,12 @@ export const GET_All_PRODUCTS = gql`
         }
       }
     `;
+
+    export const GET_CURRENCY = gql `
+      query getCurrency {
+        currencies {
+          label
+          symbol
+        }
+      }
+    `;
