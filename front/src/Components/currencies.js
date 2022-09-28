@@ -9,7 +9,7 @@ export class Currencies extends Component {
     }
 
     handleChange = (e) => {
-        this.props.dispatch({type: e.target.value});
+        this.props.dispatch({type: e.target.value[0]});
     }
 
     render() {
@@ -25,7 +25,7 @@ export class Currencies extends Component {
             <select defaultValue={'$'} onChange={this.handleChange}>
                 <option  value="$" disabled hidden>$</option>
                 {data.currencies.map((item, index) => (
-                    <option key={index}>{item.label} </option>
+                    <option key={index}>{item.symbol + ' ' + item.label} </option>
                 ))}
             </select>
             )

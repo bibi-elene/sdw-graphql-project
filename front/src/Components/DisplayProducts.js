@@ -3,16 +3,11 @@ import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import {connect} from 'react-redux';
 
-
-//backgroundImage: `url(${gallery})`
 //<p>inStock: {item.inStock ? "true" : "false"}</p> 
-
 
 export class DisplayProducts extends Component {
   
 render(){
-
-console.log(this.props.currency)
 
     return ( 
 
@@ -31,7 +26,7 @@ console.log(this.props.currency)
         <p>
           {item.prices.map(({amount, currency}) => 
           (<span key={currency.label} style={{fontWeight: "900", position: "absolute"}}>
-          { currency.label == this.props.currency ? currency.symbol + amount : null}<br/>
+          { currency.symbol[0] == this.props.currency ? currency.symbol + amount : null}<br/>
           </span>))
           }
         </p> 
@@ -40,8 +35,8 @@ console.log(this.props.currency)
       </section>
       
     ))
-}}
-    </Query>
+    }}
+        </Query>
     )}
   }
 

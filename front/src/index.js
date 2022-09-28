@@ -18,23 +18,23 @@ const currencyState = {
 
 const reducer = (state = currencyState, action) => {
   switch(action.type) {
-    case "USD":
-      return {currency: state.currency = "USD"};
+    case "$":
+      return {currency: state.currency = "$"};
 
-    case "GBP":
-      return {currency: state.currency = "GBP"};
+    case "£":
+      return {currency: state.currency = "£"};
 
-    case "AUD":
-      return {currency: state.currency = "AUD"};
+    case "A":
+      return {currency: state.currency = "A"};
 
-    case "JPY":
-      return {currency: state.currency = "JPY"};
+    case "¥":
+      return {currency: state.currency = "¥"};
 
-    case "RUB":
-      return {currency: state.currency = "RUB"};
+    case "₽":
+      return {currency: state.currency = "₽"};
 
     default: 
-      return {currency: state.currency = "USD"};
+      return {currency: state.currency = "$"};
   }
 }
 

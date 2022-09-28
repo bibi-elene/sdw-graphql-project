@@ -1,7 +1,4 @@
-import { useQuery, gql } from '@apollo/client';
-import { ApolloClient } from '@apollo/client/core';
-
-const categoryName = "all";
+import { gql } from '@apollo/client';
 
 export const GET_All_PRODUCTS = gql`
         query GetProducts {
@@ -60,6 +57,10 @@ export const GET_All_PRODUCTS = gql`
                 }
               }
               prices{
+                currency {
+                  label
+                  symbol
+                }
                 amount
               }
               brand
@@ -91,6 +92,10 @@ export const GET_All_PRODUCTS = gql`
                 }
               }
               prices{
+                currency {
+                  label
+                  symbol
+                }
                 amount
               }
               brand

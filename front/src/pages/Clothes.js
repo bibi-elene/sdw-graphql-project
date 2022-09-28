@@ -2,6 +2,7 @@ import {GET_CLOTHES} from '../Components/Queries';
 import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import Header from '../Components/Header';
+import {connect} from 'react-redux';
 
 export class Clothes extends Component {
   
@@ -17,17 +18,20 @@ export class Clothes extends Component {
                 if (data.category === undefined) return null;
     
         return data.category.products.map(( item, index) => (
-          <section key={index} style={{width: "100%"}}>  
-              <div style={{margin: "50px", width: "18%", height: "50vh", float: "left", border: "1px solid grey", padding: "15px 50px"}}>
-                <h3>ID : {item.id}</h3>
-                <p>Name: {item.name} </p>
-                <p>inStock: {item.inStock ? "true" : "false"}</p> 
-                <img alt="product-image" src={item.gallery[0]} width="100"></img> 
-                <p>Category: {item.category} </p> 
-                <p>Brand: {item.brand} </p> 
-                <br />
-              </div>
-            </section>
+          <section key={index}  style={{width: "100%"}}>  
+          <div style={{margin: "50px", width: "14%", height: "40vh", float: "left", padding: "15px 50px"}}>
+            <img src={item.gallery[0]} width="100%" height="200px"></img>
+            <p>{item.name} </p>
+            <p>
+              {item.prices.map(({amount, currency}) => 
+              (<span key={currency.label} style={{fontWeight: "900", position: "absolute"}}>
+              { currency.symbol[0] == this.props.currency ? currency.symbol + amount : null}<br/>
+              </span>))
+              }
+            </p> 
+            <br />
+          </div>
+          </section>
               
             ))
           }}
@@ -36,4 +40,10 @@ export class Clothes extends Component {
         )}
       }
     
-      export default Clothes;
+      function mapStateProps(state){
+        return{
+            currency: state.currency
+        };
+    }
+    
+      export default connect(mapStateProps)(Clothes);
