@@ -9,7 +9,7 @@ export class Currencies extends Component {
     }
 
     handleChange = (e) => {
-        this.props.dispatch({type: e.target.value[0]});
+        this.props.dispatch({type: e.target.value[0] == "A" ? "A$" : e.target.value[0]});
     }
 
     render() {
@@ -22,12 +22,14 @@ export class Currencies extends Component {
            
             
         return (
-            <select defaultValue={'$'} onChange={this.handleChange}>
-                <option  value="$" disabled hidden>$</option>
+         <section className='header' style={{float:"right", position: "absolute", right: "0", top: "0"}}> 
+            <select defaultValue={this.props.currency} onChange={this.handleChange}>
+                <option value={this.props.currency} disabled hidden>{this.props.currency}</option>
                 {data.currencies.map((item, index) => (
-                    <option key={index}>{item.symbol + ' ' + item.label} </option>
+                    <option key={index}> {item.symbol + ' ' + item.label} </option>
                 ))}
             </select>
+            </section>  
             )
 
                 }}

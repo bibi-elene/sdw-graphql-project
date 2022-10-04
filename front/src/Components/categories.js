@@ -11,8 +11,8 @@ export class Categories extends Component {
 
     handleChange = (e) => {
         this.props.dispatch({type: e.target.innerHTML});
-        console.log(e.target.innerHTML, this.props)
     }
+
 
     render() {
         return (
@@ -22,11 +22,14 @@ export class Categories extends Component {
             if (error) return console.log(error);
             if (data.categories === undefined) return null;
 
-            return data.categories.map((item, index) => (
-            <section key={index} style={{display: "inline-block", margin: "40px 10px"}}>
-                <Link onClick={this.handleChange} id="header" style={{padding: "0 10px"}} to={item.name == 'all' ? '/' : `/${item.name}`}>{item.name.toUpperCase()}</Link>
+            return (
+                <section className='header' style={{display: "inline-block", float: "left", position: "absolute", left: "5px", top: "0"}}>
+                {data.categories.map((item, index) => (
+                <Link key={index} className='categories' onClick={this.handleChange} id="header" style={{padding: "10px 10px", color: item.name.toUpperCase() == this.props.category ? "green" : "black", borderBottom: item.name.toUpperCase() == this.props.category ? "1px solid green" : "none", fontWeight: item.name.toUpperCase() == this.props.category ? "600" : "400"}} to={item.name == 'all' ? '/' : `/${item.name}`}>{item.name.toUpperCase()}</Link>
+                ))}
             </section>
-            ))
+            
+            )
                 }}
             </Query>
                 

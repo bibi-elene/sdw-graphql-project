@@ -2,6 +2,7 @@ import {GET_All_PRODUCTS} from './Queries';
 import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
 
 //<p>inStock: {item.inStock ? "true" : "false"}</p> 
 
@@ -19,18 +20,20 @@ render(){
             if (data.category === undefined) return null;
 
     return data.category.products.map(( item, index) => (
-    <section key={index}  style={{width: "100%"}}>  
-      <div style={{margin: "50px", width: "14%", height: "40vh", float: "left", padding: "15px 50px"}}>
-        <img src={item.gallery[0]} width="100%" height="200px"></img>
+    <section className='products-section' key={index}  style={{width: "100%"}}>  
+      <div className='products-div'>
+        <Link to={`/${item.id}`} style= {{color: "black"}}>
+        <img src={item.gallery[0]} width="260px" height="260px"></img>
         <p>{item.name} </p>
         <p>
           {item.prices.map(({amount, currency}) => 
-          (<span key={currency.label} style={{fontWeight: "900", position: "absolute"}}>
-          { currency.symbol[0] == this.props.currency ? currency.symbol + amount : null}<br/>
+          (<span key={currency.label}>
+          { currency.symbol == this.props.currency ? currency.symbol + amount : null}<br/>
           </span>))
           }
         </p> 
         <br />
+      </Link>
       </div>
       </section>
       
@@ -41,7 +44,7 @@ render(){
   }
 
   function mapStateProps(state){
-    return{
+    return {
         currency: state.currency
     };
 }

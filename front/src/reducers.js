@@ -14,8 +14,8 @@ const currencyState = {
       case "£":
         return {...state, currency: state.currency = "£"};
   
-      case "A":
-        return {...state, currency: state.currency = "A"};
+      case "A$":
+        return {...state, currency: state.currency = "A$"};
   
       case "¥":
         return {...state, currency: state.currency = "¥"};
