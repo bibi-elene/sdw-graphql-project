@@ -22,8 +22,8 @@ export class Tech extends Component {
           <section className='products-section' key={index}  style={{width: "100%"}}>  
           <div className='products-div'>
             <Link to={`/${item.id}`} style= {{color: "black"}}>
-        <img src={item.gallery[0]}  width="200px" height="200px"></img>
-        <p>{item.name} </p>
+        <img src={item.gallery[0]}  width="356px" height="338px"></img>
+        <p>{item.brand} {item.name} </p>
         <p>
           {item.prices.map(({amount, currency}) => 
           (<span key={currency.label}>

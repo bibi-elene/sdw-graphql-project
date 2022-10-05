@@ -1,9 +1,7 @@
-import {GET_All_PRODUCTS} from '../Components/Queries';
 import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useParams, useNavigate } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { withRouter } from '../Components/withRouter';
 import Header from '../Components/Header';
@@ -78,8 +76,8 @@ render(){
             if (data.product === undefined) return null;
 
     return (
-      <div style={{alignItems: "start", position: "absolute", width: "100%", display: "flex", marginTop: "15%", marginLeft: "12%", maxWidth: "80vw"}}>
-
+      <div className='product-section' style={{alignItems: "start", position: "absolute", width: "100%", display: "flex", marginTop: "15%", marginLeft: "12%", maxWidth: "80vw"}}>
+        
           <div className='product-div'>
             {data.product.gallery.map((x) => (
               <a style={{ display: "absolute", width:"100%", height: "100%", float: "left", padding: "10px 0"}} key={x}>
@@ -97,7 +95,7 @@ render(){
             <img style={{maxWidth: "400px"}} src={this.state.gallery} width="auto"></img>
           </div>
 
-          <div className='product-div' style={{ width: "100%", textAlign: "start"}}>
+          <div className='product-details' style={{ width: "100%", textAlign: "start"}}>
             <h1 style={{fontWeight: "600"}}> {data.product.brand} </h1>
             <p style={{fontWeight: "400"}}> {data.product.name}</p>
               {data.product.attributes.map(({name, items, id}) => (
@@ -118,7 +116,7 @@ render(){
                       alignItems: "center", 
                       justifyContent: "center",
                       margin: "10px 8px 15px 0",
-                      padding: value.startsWith("#") ? "0" : "10px 15px"
+                      padding: value.startsWith("#") ? "0" : "6px 10px"
                     }}> 
                   {value.startsWith("#") ? " " : value } <br />
                   </div>
@@ -137,7 +135,7 @@ render(){
             }
             </p> 
             </div>
-            <div style={{marginTop: "20%", width: "auto", maxWidth: "80%", fontFamily: "Roboto Condensed", fontWeight: "400", lineHeight: "16px"}}>{parseStr(data.product.description)}</div>
+            <p style={{marginTop: "20%", width: "auto", maxWidth: "80%", fontFamily: "Roboto Condensed", fontWeight: "400", lineHeight: "16px"}}>{parseStr(data.product.description)}</p>
           </div> 
     </div>
     )
