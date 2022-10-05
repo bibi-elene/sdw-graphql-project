@@ -23,7 +23,7 @@ render(){
     <section className='products-section' key={index}  style={{width: "100%"}}>  
       <div className='products-div'>
         <Link to={`/${item.id}`} style= {{color: "black"}}>
-        <img src={item.gallery[0]} width="260px" height="260px"></img>
+        <img src={item.gallery[0]} width="260px" height="270px"></img>
         <p>{item.name} </p>
         <p>
           {item.prices.map(({amount, currency}) => 
