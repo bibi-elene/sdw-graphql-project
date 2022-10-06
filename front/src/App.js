@@ -6,8 +6,6 @@ import {
   Route,
   Routes
 } from "react-router-dom";
-import Clothes from './Pages/Clothes';
-import Tech from './Pages/Tech';
 import Product from './Pages/Product';
 import Cart from './Pages/Cart';
 
@@ -17,8 +15,6 @@ class App extends Component {
     return ( 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Clothes" element={<Clothes />} />
-        <Route path="/Tech" element={<Tech />} />
         <Route path="/:id" element={<Product />} />
         <Route path="/Cart" element={<Cart />} />
       </Routes>

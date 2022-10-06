@@ -105,6 +105,37 @@ export const GET_All_PRODUCTS = gql`
       }
     `;
 
+   export const GET_PRODUCT = gql `
+      query getProduct($id: String!) {
+        product(id: $id) {
+          name
+          id
+          inStock
+          gallery
+          description
+          category
+          brand
+          attributes {
+            name
+            id
+            items{
+              displayValue
+              value
+              id
+            }
+          }
+          prices{
+            currency {
+              label
+              symbol
+            }
+            amount
+          }
+          brand
+        }
+      }
+    `;
+
     export const GET_CATEGORY = gql `
       query getCategory {
         categories {

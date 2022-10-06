@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-import { gql } from '@apollo/client';
 import { withRouter } from '../Components/withRouter';
 import Header from '../Components/Header';
+import { GET_PRODUCT } from '../Components/Queries';
 
 // Images, brand, name, attributes =>  name, items => value (sizes, colors), price, addToCart button
 
@@ -18,45 +18,14 @@ class Product extends Component {
     }
   }
 render(){
-  const id = this.props.params.id;
-  const GET_PRODUCT = gql `
-      query getProduct($id: String!) {
-        product(id: $id) {
-          name
-          id
-          inStock
-          gallery
-          description
-          category
-          brand
-          attributes {
-            name
-            id
-            items{
-              displayValue
-              value
-              id
-            }
-          }
-          prices{
-            currency {
-              label
-              symbol
-            }
-            amount
-          }
-          brand
-        }
-      }
-    `;
+    // for product query
+    const id = this.props.params.id;
 
     const changePhoto = (e) => {
       this.setState({gallery: e.target.src});
-      console.log(this.props)
     }
 
-    const parser = new DOMParser();
-
+    // parse description from html to text
     const parseStr = (x) => {
       if ((x === null) || (x === "") || (x === undefined))
         return false;
@@ -148,7 +117,7 @@ render(){
 
   function mapStateProps(state){
     return{
-        currency: state.currency
+        currency: state.currency,
     };
 }
 

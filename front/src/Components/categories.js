@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import DisplayProducts from './DisplayProducts';
 
 export class Categories extends Component {
     constructor(props) {
@@ -31,7 +32,8 @@ export class Categories extends Component {
                     borderBottom: item.name.toUpperCase() == this.props.category ? "1px solid #5ECE7B" : "none", 
                     fontWeight: item.name.toUpperCase() == this.props.category ? "600" : "400",
                     fontSize: "16px"}} 
-                    to={item.name == 'all' ? '/' : `/${item.name}`}>
+                    to={'/'}
+                    >
 
                         {item.name.toUpperCase()}
 
@@ -49,7 +51,8 @@ export class Categories extends Component {
 
 function mapStateProps(state){
     return{
-        category: state.category
+        category: state.category,
+        queryType: state.queryType
     };
 }
 

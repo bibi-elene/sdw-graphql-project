@@ -11,13 +11,13 @@ export class DisplayProducts extends Component {
   
 render(){
 
-  const addToCart = (e) => {
-    console.log(e.target)
+  const addToCart = () => {
+    console.log(this.props)
   }
 
     return ( 
 
-        <Query key={"key"} query={GET_All_PRODUCTS}>
+        <Query key={"key"} query={this.props.queryType}>
 
         {({ loading, error, data }) => {
             if (loading) return 'Loading ...';
@@ -39,7 +39,8 @@ render(){
         </p> 
         <br />
       </Link>
-      <button onClick={addToCart}>Add</button>
+      <button onClick={(() => this.props.cart.push(item.id))}>Add</button>
+      <button onClick={(() => console.log(this.props.cart))}>Add</button>
       </div>
       </section>
     ))
@@ -50,7 +51,9 @@ render(){
 
   function mapStateProps(state){
     return {
-        currency: state.currency
+        currency: state.currency,
+        queryType: state.queryType,
+        cart: state.cart
     };
 }
 
