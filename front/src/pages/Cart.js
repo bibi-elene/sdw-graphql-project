@@ -1,21 +1,48 @@
-import {GET_All_PRODUCTS} from '../Components/Queries';
 import React, {Component} from 'react';
-import { Query } from "@apollo/client/react/components";
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
-import { useParams, useNavigate } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { withRouter } from '../Components/withRouter';
 import Header from '../Components/Header';
-import logo from '../Empty Cart.png';
 
 
-class Cart extends Component {
-    render() {
-        return(
-            console.log('success')
-        )
+/* 
+<img width="100" src={x.gallery[0]}></img>
+<h1>{x.brand}</h1>
+
+*/
+
+export class Cart extends Component {
+  
+    render(){
+    if (this.props.cart[0] !== undefined) {   
+        return (
+            <section>
+                <Header />
+                <div style={{margin: "300px", fontSize: "10px"}}>
+                    {this.props.cart.map((x, index) => (
+                        <div key={index} style={{marginBottom: "20px", borderBottom: "1px solid red"}}>
+                        <h1>{x.brand}</h1> 
+                        <h1>{x.name}</h1>     
+                        <div>
+                        <button onClick={() => this.props.dispatch({type: "INCREASE", payload: x})}> + </button> 
+                        <button onClick={() => this.props.dispatch({type: "DECREASE", payload: x})}> - </button>
+                        <h1> {x.quantity} </h1>                                   
+                        </div>      
+                        </div>
+                    ))}
+                </div>
+            </section>
+        ) 
+    } else {
+        return <div> Empty Cart</div>
     }
-}
-
-export default Cart;
+        }
+      }
+    
+      function mapStateProps(state){
+        return {
+            currency: state.currency,
+            queryType: state.queryType,
+            cart: state.cart
+        };
+    }
+    
+      export default connect(mapStateProps)(Cart);

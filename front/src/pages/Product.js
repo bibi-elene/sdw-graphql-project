@@ -68,7 +68,7 @@ render(){
             <h1 style={{fontWeight: "600"}}> {data.product.brand} </h1>
             <p style={{fontWeight: "400"}}> {data.product.name}</p>
               {data.product.attributes.map(({name, items, id}) => (
-                <div key={id} style={{padding: "5px"}}> 
+                <div key={id} id="attributes" style={{padding: "5px"}}> 
                 <span style={{fontWeight: "600", fontFamily: "Roboto Condensed"}}> {name}: </span> 
                 <br /> 
                 {items.map(({value, id}) => (

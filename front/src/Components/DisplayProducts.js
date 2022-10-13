@@ -1,9 +1,7 @@
-import {GET_All_PRODUCTS} from './Queries';
 import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-import Categories from './categories';
 
 //<p>inStock: {item.inStock ? "true" : "false"}</p> 
 
@@ -11,9 +9,6 @@ export class DisplayProducts extends Component {
   
 render(){
 
-  const addToCart = () => {
-    console.log(this.props)
-  }
 
     return ( 
 
@@ -39,8 +34,8 @@ render(){
         </p> 
         <br />
       </Link>
-      <button onClick={(() => this.props.cart.push(item.id))}>Add</button>
-      <button onClick={(() => console.log(this.props.cart))}>Add</button>
+      <button onClick={() => this.props.dispatch({type: "ADD_CART", payload: item})}>Add</button>
+      <button onClick={(() => console.log(this.props.cart))}>See</button>
       </div>
       </section>
     ))
@@ -49,12 +44,16 @@ render(){
     )}
   }
 
-  function mapStateProps(state){
+  const mapStateProps = state => {
     return {
         currency: state.currency,
         queryType: state.queryType,
-        cart: state.cart
+        cart: state.cart,
     };
-}
+  }
+
+
+
+
 
   export default connect(mapStateProps)(DisplayProducts);
