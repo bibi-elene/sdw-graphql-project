@@ -19,13 +19,23 @@ export class Cart extends Component {
                 <div style={{margin: "300px", fontSize: "10px"}}>
                     {this.props.cart.map((x, index) => (
                         <div key={index} style={{marginBottom: "20px", borderBottom: "1px solid red"}}>
-                        <h1>{x.brand}</h1> 
-                        <h1>{x.name}</h1>     
-                        <div>
-                        <button onClick={() => this.props.dispatch({type: "INCREASE", payload: x})}> + </button> 
-                        <button onClick={() => this.props.dispatch({type: "DECREASE", payload: x})}> - </button>
-                        <h1> {x.quantity} </h1>                                   
-                        </div>      
+                            <div>
+                            <h1>{x.brand}</h1> 
+                            <h1>{x.name}</h1> 
+                            <p>
+                                {x.prices}
+                                </p> 
+                            <div> size here</div>   
+                            <div> color here</div>     
+                            <div>
+                            <button onClick={() => this.props.dispatch({type: "INCREASE", payload: x})}> + </button> 
+                            <button onClick={() => this.props.dispatch({type: "DECREASE", payload: x})}> - </button>
+                            <h1> {x.quantity} </h1>   
+                            </div>                                
+                            </div> 
+                            <div>
+                                <img src={x.gallery} width="100"></img>
+                            </div>     
                         </div>
                     ))}
                 </div>

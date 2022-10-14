@@ -44,6 +44,10 @@ const initialState = {
               quantity:1,
               name:action.payload.name,
               brand:action.payload.brand,
+              prices: action.payload.prices.map(({amount, currency}) => 
+                   currency.symbol == state.currency ? currency.symbol + amount : null
+                  ),
+                  gallery: action.payload.gallery[0]
           } 
           state.cart.push(cartItem); 
       }
@@ -61,6 +65,10 @@ const initialState = {
                   quantity:1,
                   name:action.payload.name,
                   brand:action.payload.brand,
+                  prices: action.payload.prices.map(({amount, currency}) => 
+                   currency.symbol == state.currency ? currency.symbol + amount : null
+                  ),
+                  gallery: action.payload.gallery[0]
               }
               state.cart.push(cartItem);
           }
@@ -72,7 +80,6 @@ const initialState = {
 
       case "INCREASE": 
         state.numberCart++;
-        console.log(action.payload)
       
         return{...state, cart: state.cart.map(item =>
         item.id === action.payload.id
@@ -82,14 +89,18 @@ const initialState = {
       
       case "DECREASE": 
         state.numberCart--;
-        console.log(action.payload)
-      
-        return{...state, cart: state.cart.map(item =>
-        item.id === action.payload.id
-          ? {...item, quantity: item.quantity - 1}
-          : item,
-      ),}
-      
+
+      if (action.payload.quantity > 1) {
+        return {...state, cart: state.cart.map(item =>
+          item.id === action.payload.id 
+            ? {...item, quantity: item.quantity - 1}
+            : item,
+        ),}
+        } 
+      else {
+        return {...state, cart: state.cart.filter(item => item !== action.payload)}
+        }
+        
       default: 
         return {
             currency: state.currency = "$",
