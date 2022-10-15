@@ -104,7 +104,18 @@ render(){
             }
             </p> 
             </div>
-            <p style={{marginTop: "20%", width: "auto", maxWidth: "80%", fontFamily: "Roboto Condensed", fontWeight: "400", lineHeight: "16px"}}>{parseStr(data.product.description)}</p>
+            <div style={{marginTop: "5vw"}}>
+              <button style={{
+              backgroundColor: "#5ECE7B", 
+              padding: "16px 32px", 
+              border: "none", 
+              color: "white", 
+              fontWeight: "600"}} 
+              onClick={() => this.props.dispatch({type: "ADD_CART", payload: data.product})}>
+                ADD TO CART
+              </button>
+            </div>
+            <p style={{marginTop: "20px", width: "auto", maxWidth: "80%", fontFamily: "Roboto Condensed", fontWeight: "400", lineHeight: "16px"}}>{parseStr(data.product.description)}</p>
           </div> 
     </div>
     )

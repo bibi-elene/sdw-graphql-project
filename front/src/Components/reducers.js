@@ -38,6 +38,7 @@ const initialState = {
         return {...state, category: state.category = "TECH", queryType: state.queryType = GET_TECH};
       
       case "ADD_CART":
+        state.numberCart++;
         if(state.numberCart==0){
           let cartItem = {
               id:action.payload.id,
@@ -75,7 +76,7 @@ const initialState = {
       }
       return{
           ...state,
-          numberCart:state.numberCart+1
+          numberCart: state.numberCart++
       }
 
       case "INCREASE": 
@@ -107,6 +108,7 @@ const initialState = {
             category: state.category = "ALL",
             queryType: state.queryType = GET_All_PRODUCTS,
             cart: state.cart = [],
+            numberCart: 0
             };
     }
   }

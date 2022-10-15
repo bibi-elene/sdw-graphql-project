@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Categories from './categories'
 import Currencies from './currencies';
-import Cart from '../Pages/MiniCart';
+import MiniCart from '../Pages/MiniCart';
 import {connect} from 'react-redux';
 import logo from '../a-logo.png';
 
@@ -15,7 +15,7 @@ class Header extends Component {
                 <img src={logo}></img>
             </section>  
             <Currencies />
-            <Cart />
+            <MiniCart />
             <h1 style={{position: "absolute", left: "10%", top: "10%", fontSize: "42px"}}>{this.props.category}</h1>
             </section>
         )
@@ -24,7 +24,8 @@ class Header extends Component {
 
 function mapStateProps(state){
     return{
-        category: state.category
+        category: state.category,
+        numberCart: state.numberCart
     };
 }
 

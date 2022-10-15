@@ -15,11 +15,19 @@ class MiniCart extends Component {
     render(){
         return (
             <Link to="/Cart" className='header' style={{float:"right", position: "absolute", right: "-35px", top: "0"}}>
-                <img src={logo}></img>
+                <img src={logo}></img> <span>{this.props.numberCart}</span>
             </Link>
         )
     }
 
 }
 
-export default MiniCart;
+
+function mapStateProps(state){
+    return{
+        numberCart: state.numberCart
+    };
+}
+
+
+export default connect(mapStateProps)(MiniCart);
