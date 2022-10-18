@@ -2,13 +2,16 @@ import {legacy_createStore as createStore} from 'redux';
 import { GET_All_PRODUCTS } from './Queries';
 import { GET_CLOTHES } from './Queries';
 import { GET_TECH } from './Queries';
+import $ from 'jquery';
+
 
 const initialState = {
     currency: "",
     category: "",
     cart: [],
     queryType: GET_All_PRODUCTS,
-    numberCart: 0
+    numberCart: 0,
+    selected: false
   }
   
   const reducer = (state = initialState, action) => {
@@ -101,6 +104,19 @@ const initialState = {
       else {
         return {...state, cart: state.cart.filter(item => item !== action.payload)}
         }
+
+      case "SELECT": 
+
+        action.payload.filter(item => item.value == action.targetValue.value).map(item => 
+          item.value[0] !== "#" ?  
+            $(`#${item.id}`).css({"background-color": "black", "color": "white"})
+          : $(`#${item.id}`).css({"border": "3px solid green"}));
+        action.payload.filter(item => item.value !== action.targetValue.value).map(item => 
+          item.value[0] !== "#" ?  
+          $(`#${item.id}`).css({"background-color": "white", "color": "black"})
+          : $(`#${item.id}`).css({"border": "1px solid black"}));
+       
+        return {...state, selected: state.selected = action.targetValue};
         
       default: 
         return {
@@ -108,7 +124,8 @@ const initialState = {
             category: state.category = "ALL",
             queryType: state.queryType = GET_All_PRODUCTS,
             cart: state.cart = [],
-            numberCart: 0
+            numberCart: 0,
+            selected: ''
             };
     }
   }

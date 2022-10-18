@@ -14,7 +14,8 @@ class Product extends Component {
   constructor(props){
     super(props);
     this.state = {
-      gallery: ''
+      gallery: '',
+      selected: ''
     }
   }
 render(){
@@ -24,6 +25,11 @@ render(){
     const changePhoto = (e) => {
       this.setState({gallery: e.target.src});
     }
+
+    const changeSelect = (e) => {
+      this.setState({selected: e.target.value})
+    }
+
 
     // parse description from html to text
     const parseStr = (x) => {
@@ -72,7 +78,17 @@ render(){
                 <span style={{fontWeight: "600", fontFamily: "Roboto Condensed"}}> {name}: </span> 
                 <br /> 
                 {items.map(({value, id}) => (
-                  <div key={id} 
+                  <div
+                      key={id} 
+                      style={{
+                        display: "inline-flex", 
+                        textAlign: "center", 
+                        alignItems: "center", 
+                        justifyContent: "center",
+                      }}
+                      > 
+                  <label
+                    id={id}  
                     style={{
                       backgroundColor: value, 
                       border: "1px solid #1D1F22", 
@@ -80,14 +96,20 @@ render(){
                       height: "32px", 
                       fontSize: "16px", 
                       fontWeight: "400", 
-                      display: "inline-flex", 
-                      textAlign: "center", 
-                      alignItems: "center", 
-                      justifyContent: "center",
                       margin: "10px 8px 15px 0",
                       padding: value.startsWith("#") ? "0" : "6px 10px"
-                    }}> 
-                  {value.startsWith("#") ? " " : value } <br />
+                    }}
+                  >  <br /> 
+                  <input 
+                  type="radio" 
+                  name={id} 
+                  id={id} 
+                  value={value} 
+                  onClick={(e) => this.props.dispatch({type: "SELECT", payload: items, targetValue: e.target})}
+                  onChange={changeSelect}
+                  checked={this.state.selected === id} hidden />
+                  {value.startsWith("#") ? " " : value }
+                  </label>
                   </div>
                 ))} 
 
@@ -105,7 +127,8 @@ render(){
             </p> 
             </div>
             <div style={{marginTop: "5vw"}}>
-              <button style={{
+              <button className="btn-product"
+              style={{
               backgroundColor: "#5ECE7B", 
               padding: "16px 32px", 
               border: "none", 
@@ -129,6 +152,7 @@ render(){
   function mapStateProps(state){
     return{
         currency: state.currency,
+        selected: state.selected
     };
 }
 

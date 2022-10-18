@@ -70,6 +70,15 @@
     list-style: none;
   }
 
+  .btn-product {
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-product:hover {
+    opacity: 0.8;
+  }
+
 
   /* Media queries */
 
