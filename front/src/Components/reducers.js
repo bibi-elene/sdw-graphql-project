@@ -2,7 +2,6 @@ import {legacy_createStore as createStore} from 'redux';
 import { GET_All_PRODUCTS } from './Queries';
 import { GET_CLOTHES } from './Queries';
 import { GET_TECH } from './Queries';
-import $ from 'jquery';
 
 
 const initialState = {
@@ -11,7 +10,16 @@ const initialState = {
     cart: [],
     queryType: GET_All_PRODUCTS,
     numberCart: 0,
-    selected: false
+    cartItem: {
+      id:'',
+      quantity: 0,
+      name:'',
+      brand:'',
+      prices: [],
+      gallery: '',
+      attributes: [],
+      selected: ''
+    }
   }
   
   const reducer = (state = initialState, action) => {
@@ -42,41 +50,63 @@ const initialState = {
       
       case "ADD_CART":
         state.numberCart++;
-        if(state.numberCart==0){
-          let cartItem = {
+
+        let selectedAttr = action.payload.attributes.map(({items}) => items.filter(({value, id}) => document.getElementById(id).style.backgroundColor == 'rgb(29, 31, 34)' || document.getElementById(id).style.border == '1px solid rgb(94, 206, 123)').map((x) => x));
+        let itemPrices = action.payload.prices.map(({amount, currency}) => currency.symbol == state.currency ? currency.symbol + amount : null);
+        let itemAttributes = action.payload.attributes.map(({items, id, name}) => items.map(({value, id}) => id));
+
+        if  (state.numberCart == 0) {
+           state.cartItem = {
               id:action.payload.id,
               quantity:1,
               name:action.payload.name,
               brand:action.payload.brand,
-              prices: action.payload.prices.map(({amount, currency}) => 
-                   currency.symbol == state.currency ? currency.symbol + amount : null
-                  ),
-                  gallery: action.payload.gallery[0]
-          } 
-          state.cart.push(cartItem); 
-      }
-      else{
+              prices: itemPrices,
+              gallery: action.payload.gallery[0],
+              attributes: itemAttributes,
+              selected: '',
+              selectedSeveral: []
+          }
+          state.cart.push(state.cartItem); 
+        }
+        else  {
           let check = false;
           state.cart.map((item,key)=>{
-              if(item.id==action.payload.id){
+              if(item.id == action.payload.id){
                   state.cart[key].quantity++;
-                  check=true;
-              }
+                  check = true;
+                }
           });
-          if(!check){
-              let cartItem = {
+
+          if (!check) {
+               state.cartItem = {
                   id:action.payload.id,
                   quantity:1,
                   name:action.payload.name,
                   brand:action.payload.brand,
-                  prices: action.payload.prices.map(({amount, currency}) => 
-                   currency.symbol == state.currency ? currency.symbol + amount : null
-                  ),
-                  gallery: action.payload.gallery[0]
+                  prices: itemPrices,
+                  gallery: action.payload.gallery[0],
+                  attributes: itemAttributes,
+                  selected: '',
+                  selectedSeveral: []
               }
-              state.cart.push(cartItem);
+              state.cart.push(state.cartItem);
+          }
+ 
+      }
+
+      for (var i = 0; i < itemAttributes.length; i++) {
+        for (var y = 0; y < itemAttributes[i].length; y++) {
+          if (document.getElementById(itemAttributes[i][y]).style.backgroundColor == "black") {
+            state.cartItem.selected = document.getElementById(itemAttributes[i][y]).id
+            state.cartItem.selectedSeveral.push(state.cartItem.selected);
           }
       }
+    }
+
+              console.log(state.cartItem)
+
+
       return{
           ...state,
           numberCart: state.numberCart++
@@ -105,18 +135,6 @@ const initialState = {
         return {...state, cart: state.cart.filter(item => item !== action.payload)}
         }
 
-      case "SELECT": 
-
-        action.payload.filter(item => item.value == action.targetValue.value).map(item => 
-          item.value[0] !== "#" ?  
-            $(`#${item.id}`).css({"background-color": "black", "color": "white"})
-          : $(`#${item.id}`).css({"border": "3px solid green"}));
-        action.payload.filter(item => item.value !== action.targetValue.value).map(item => 
-          item.value[0] !== "#" ?  
-          $(`#${item.id}`).css({"background-color": "white", "color": "black"})
-          : $(`#${item.id}`).css({"border": "1px solid black"}));
-       
-        return {...state, selected: state.selected = action.targetValue};
         
       default: 
         return {
@@ -125,7 +143,16 @@ const initialState = {
             queryType: state.queryType = GET_All_PRODUCTS,
             cart: state.cart = [],
             numberCart: 0,
-            selected: ''
+            cartItem: {
+              id:'',
+              quantity: 0,
+              name:'',
+              brand:'',
+              prices: [],
+              gallery: '',
+              attributes: [],
+              selected: ''
+            }
             };
     }
   }

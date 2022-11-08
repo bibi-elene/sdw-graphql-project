@@ -19,7 +19,10 @@ render(){
             if (error) return console.log(error);
             if (data.category === undefined) return null;
 
-    return data.category.products.map(( item, index) => (
+    return (
+      <>
+      <h1 style={{position: "absolute", left: "10%", top: "10%", fontSize: "42px"}}>{this.props.category}</h1>
+      {data.category.products.map(( item, index) => (
     <section key={index}  className='products-section' style={{width: "100%"}}>  
       <div className='products-div'>
         <Link to={`/${item.id}`} style= {{color: "black"}}>
@@ -35,10 +38,11 @@ render(){
         <br />
       </Link>
       <button onClick={() => this.props.dispatch({type: "ADD_CART", payload: item})}>Add</button>
-      <button onClick={(() => console.log(this.props.cart))}>See</button>
+      <button onClick={(() => console.log(item))}>See</button>
       </div>
       </section>
-    ))
+    ))} </>
+    )
     }}
         </Query>
     )}
@@ -46,6 +50,7 @@ render(){
 
   const mapStateProps = state => {
     return {
+        category: state.category,
         currency: state.currency,
         queryType: state.queryType,
         cart: state.cart,

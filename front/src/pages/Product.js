@@ -15,7 +15,6 @@ class Product extends Component {
     super(props);
     this.state = {
       gallery: '',
-      selected: ''
     }
   }
 render(){
@@ -28,6 +27,22 @@ render(){
 
     const changeSelect = (e) => {
       this.setState({selected: e.target.value})
+    }
+
+    localStorage.setItem('selectedClass', 'selected');
+    localStorage.setItem('noSelectedClass', 'no-selected');
+
+    const selectFunction = (e) => {
+      this.props.cartItem.selected = e.target.value;
+      let allAttributes = document.querySelectorAll(`.${e.target.className}`);
+
+      allAttributes.forEach(x => e.target.id == x.id ? 
+        Object.assign(e.target.style, {backgroundColor: "black", color: "white"})
+      : Object.assign(x.style, {backgroundColor: "white", color: "black"})
+
+        )
+
+        console.log(e.target.id)
     }
 
 
@@ -51,11 +66,11 @@ render(){
             if (data.product === undefined) return null;
 
     return (
-      <div className='product-section' style={{alignItems: "start", position: "absolute", width: "100%", display: "flex", marginTop: "15%", marginLeft: "12%", maxWidth: "80vw"}}>
+      <div className='product-section' style={{alignItems: "start", position: "absolute", width: "100%", display: "flex", marginTop: "5%", marginLeft: "12%", maxWidth: "80vw"}}>
         
-          <div className='product-div'>
+          <div className='product-div' style={{overflow: "scroll", height: "600px", width: "100%"}}>
             {data.product.gallery.map((x) => (
-              <a style={{ display: "absolute", width:"100%", height: "100%", float: "left", padding: "10px 0"}} key={x}>
+              <a style={{ display: "absolute", width:"100%", float: "left", padding: "10px 0"}} key={x}>
                 <img onClick={changePhoto} width="100" src={x}></img>
               </a>
             ))}
@@ -87,29 +102,25 @@ render(){
                         justifyContent: "center",
                       }}
                       > 
-                  <label
-                    id={id}  
-                    style={{
-                      backgroundColor: value, 
-                      border: "1px solid #1D1F22", 
-                      width: "32px", 
-                      height: "32px", 
-                      fontSize: "16px", 
-                      fontWeight: "400", 
-                      margin: "10px 8px 15px 0",
-                      padding: value.startsWith("#") ? "0" : "6px 10px"
-                    }}
-                  >  <br /> 
-                  <input 
-                  type="radio" 
-                  name={id} 
+
+                  <button
+                  className={name}
+                  style={{
+                    backgroundColor: value.startsWith("#") ? value : "white", 
+                    border: value.startsWith("#") ? "1px solid #bbbbbb" : "1px solid #1D1F22", 
+                    width: value.startsWith("#") ? "32px" : "63px", 
+                    height: value.startsWith("#") ? "32px" : "45px", 
+                    fontSize: "16px", 
+                    fontWeight: "400", 
+                    margin: "10px 8px 15px 0",
+                    padding: value.startsWith("#") ? "0" : "20px"
+                  }}
                   id={id} 
                   value={value} 
-                  onClick={(e) => this.props.dispatch({type: "SELECT", payload: items, targetValue: e.target})}
-                  onChange={changeSelect}
-                  checked={this.state.selected === id} hidden />
-                  {value.startsWith("#") ? " " : value }
-                  </label>
+                  onClick={selectFunction}
+                  >
+                    {value.startsWith("#") ? " " : value }
+                    </button>
                   </div>
                 ))} 
 
@@ -152,7 +163,7 @@ render(){
   function mapStateProps(state){
     return{
         currency: state.currency,
-        selected: state.selected
+        cartItem: state.cartItem
     };
 }
 
