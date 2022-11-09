@@ -51,7 +51,6 @@ const initialState = {
       case "ADD_CART":
         state.numberCart++;
 
-        let selectedAttr = action.payload.attributes.map(({items}) => items.filter(({value, id}) => document.getElementById(id).style.backgroundColor == 'rgb(29, 31, 34)' || document.getElementById(id).style.border == '1px solid rgb(94, 206, 123)').map((x) => x));
         let itemPrices = action.payload.prices.map(({amount, currency}) => currency.symbol == state.currency ? currency.symbol + amount : null);
         let itemAttributes = action.payload.attributes.map(({items, id, name}) => items.map(({value, id}) => id));
 

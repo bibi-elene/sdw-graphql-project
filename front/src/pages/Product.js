@@ -29,21 +29,29 @@ render(){
       this.setState({selected: e.target.value})
     }
 
-    localStorage.setItem('selectedClass', 'selected');
-    localStorage.setItem('noSelectedClass', 'no-selected');
+    localStorage.setItem('border', '1px solid #bbbbbb');
+    localStorage.setItem('background', 'white')
 
     const selectFunction = (e) => {
       this.props.cartItem.selected = e.target.value;
-      let allAttributes = document.querySelectorAll(`.${e.target.className}`);
+      let allAttributes = document.getElementsByName(`${e.target.name}`);
+      console.log(this.props.cartItem)
 
-      allAttributes.forEach(x => e.target.id == x.id ? 
-        Object.assign(e.target.style, {backgroundColor: "black", color: "white"})
-      : Object.assign(x.style, {backgroundColor: "white", color: "black"})
+
+      allAttributes.forEach(x => 
+        e.target.value == x.value && e.target.className !== "swatch" ? 
+        Object.assign(e.target.style, {backgroundColor:  "black", color: "white"})
+      : e.target.value == x.value && e.target.className == "swatch" ?
+        Object.assign(e.target.style, {border:  "2px solid green"})
+      : e.target.value !== x.value && e.target.className !== "swatch" ?
+        Object.assign(x.style, {backgroundColor: "white", color: "black"})
+      :
+        Object.assign(x.style, {border: localStorage.getItem('border')})
 
         )
 
-        console.log(e.target.id)
     }
+
 
 
     // parse description from html to text
@@ -88,13 +96,13 @@ render(){
           <div className='product-details' style={{ width: "100%", textAlign: "start"}}>
             <h1 style={{fontWeight: "600"}}> {data.product.brand} </h1>
             <p style={{fontWeight: "400"}}> {data.product.name}</p>
-              {data.product.attributes.map(({name, items, id}) => (
+              {data.product.attributes.map(({type, name, items, id}) => (
                 <div key={id} id="attributes" style={{padding: "5px"}}> 
                 <span style={{fontWeight: "600", fontFamily: "Roboto Condensed"}}> {name}: </span> 
                 <br /> 
                 {items.map(({value, id}) => (
                   <div
-                      key={id} 
+                      key={value} 
                       style={{
                         display: "inline-flex", 
                         textAlign: "center", 
@@ -104,10 +112,13 @@ render(){
                       > 
 
                   <button
-                  className={name}
+                  type={type}
+                  name={name}
+                  className={type}
+                  id={id}
                   style={{
-                    backgroundColor: value.startsWith("#") ? value : "white", 
-                    border: value.startsWith("#") ? "1px solid #bbbbbb" : "1px solid #1D1F22", 
+                    backgroundColor: value.startsWith("#") ? value : localStorage.getItem('background'), 
+                    border: value.startsWith("#") ? localStorage.getItem('border') : "1px solid #1D1F22", 
                     width: value.startsWith("#") ? "32px" : "63px", 
                     height: value.startsWith("#") ? "32px" : "45px", 
                     fontSize: "16px", 
@@ -115,7 +126,6 @@ render(){
                     margin: "10px 8px 15px 0",
                     padding: value.startsWith("#") ? "0" : "20px"
                   }}
-                  id={id} 
                   value={value} 
                   onClick={selectFunction}
                   >

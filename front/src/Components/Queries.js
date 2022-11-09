@@ -116,6 +116,7 @@ export const GET_All_PRODUCTS = gql`
           category
           brand
           attributes {
+            type
             name
             id
             items{
