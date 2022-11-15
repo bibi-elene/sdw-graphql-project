@@ -38,7 +38,6 @@ render(){
         <br />
       </Link>
       <button onClick={() => this.props.dispatch({type: "ADD_CART", payload: item})}>Add</button>
-      <button onClick={(() => console.log(item))}>See</button>
       </div>
       </section>
     ))} </>

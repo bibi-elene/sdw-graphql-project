@@ -18,7 +18,8 @@ const initialState = {
       prices: [],
       gallery: '',
       attributes: [],
-      selected: ''
+      selected: [],
+      selectedSeveral: []
     }
   }
   
@@ -52,7 +53,17 @@ const initialState = {
         state.numberCart++;
 
         let itemPrices = action.payload.prices.map(({amount, currency}) => currency.symbol == state.currency ? currency.symbol + amount : null);
-        let itemAttributes = action.payload.attributes.map(({items, id, name}) => items.map(({value, id}) => id));
+        let itemAttributes = action.payload.attributes.map(({items, id, name, type}) => items.map(({value, id}) => id));
+        let defaultValues = itemAttributes.map(x => x[0]);
+        let chosen = [];
+
+        const chosenAttr = itemAttributes.map(x => x.filter(y =>  
+        document.getElementById(y).style.backgroundColor == "black" 
+        || 
+        document.getElementById(y).style.border == "2px solid green"
+        ? 
+        chosen.push(y) : null));
+
 
         if  (state.numberCart == 0) {
            state.cartItem = {
@@ -62,9 +73,9 @@ const initialState = {
               brand:action.payload.brand,
               prices: itemPrices,
               gallery: action.payload.gallery[0],
-              attributes: itemAttributes,
-              selected: '',
-              selectedSeveral: []
+              attributes: action.payload.attributes,
+              selected: chosen,
+              selectedSeveral: defaultValues
           }
           state.cart.push(state.cartItem); 
         }
@@ -85,26 +96,15 @@ const initialState = {
                   brand:action.payload.brand,
                   prices: itemPrices,
                   gallery: action.payload.gallery[0],
-                  attributes: itemAttributes,
-                  selected: '',
-                  selectedSeveral: []
+                  attributes: action.payload.attributes,
+                  selected: chosen,
+                  selectedSeveral: defaultValues
               }
               state.cart.push(state.cartItem);
           }
- 
       }
 
-      for (var i = 0; i < itemAttributes.length; i++) {
-        for (var y = 0; y < itemAttributes[i].length; y++) {
-          if (document.getElementById(itemAttributes[i][y]).style.backgroundColor == "black") {
-            state.cartItem.selected = document.getElementById(itemAttributes[i][y]).id
-            state.cartItem.selectedSeveral.push(state.cartItem.selected);
-          }
-      }
-    }
-
-              console.log(state.cartItem)
-
+      console.log(state.cart)
 
       return{
           ...state,
@@ -150,7 +150,8 @@ const initialState = {
               prices: [],
               gallery: '',
               attributes: [],
-              selected: ''
+              selected: [],
+              selectedSeveral: []
             }
             };
     }

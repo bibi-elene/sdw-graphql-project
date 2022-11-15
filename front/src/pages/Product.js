@@ -25,18 +25,11 @@ render(){
       this.setState({gallery: e.target.src});
     }
 
-    const changeSelect = (e) => {
-      this.setState({selected: e.target.value})
-    }
-
     localStorage.setItem('border', '1px solid #bbbbbb');
-    localStorage.setItem('background', 'white')
+    localStorage.setItem('background', 'white');
 
     const selectFunction = (e) => {
-      this.props.cartItem.selected = e.target.value;
       let allAttributes = document.getElementsByName(`${e.target.name}`);
-      console.log(this.props.cartItem)
-
 
       allAttributes.forEach(x => 
         e.target.value == x.value && e.target.className !== "swatch" ? 
@@ -72,7 +65,7 @@ render(){
             if (loading) return 'Loading ...';
             if (error) return console.log(error);
             if (data.product === undefined) return null;
-
+            
     return (
       <div className='product-section' style={{alignItems: "start", position: "absolute", width: "100%", display: "flex", marginTop: "5%", marginLeft: "12%", maxWidth: "80vw"}}>
         
@@ -100,7 +93,7 @@ render(){
                 <div key={id} id="attributes" style={{padding: "5px"}}> 
                 <span style={{fontWeight: "600", fontFamily: "Roboto Condensed"}}> {name}: </span> 
                 <br /> 
-                {items.map(({value, id}) => (
+                {items.map(({value, id, displayValue}) => (
                   <div
                       key={value} 
                       style={{
@@ -118,18 +111,18 @@ render(){
                   id={id}
                   style={{
                     backgroundColor: value.startsWith("#") ? value : localStorage.getItem('background'), 
-                    border: value.startsWith("#") ? localStorage.getItem('border') : "1px solid #1D1F22", 
-                    width: value.startsWith("#") ? "32px" : "63px", 
-                    height: value.startsWith("#") ? "32px" : "45px", 
+                    border: type == 'swatch' ? localStorage.getItem('border') : "1px solid #1D1F22", 
+                    width: type == 'swatch' ? "32px" : "63px", 
+                    height: type == 'swatch' ? "32px" : "45px", 
                     fontSize: "16px", 
                     fontWeight: "400", 
                     margin: "10px 8px 15px 0",
-                    padding: value.startsWith("#") ? "0" : "20px"
+                    padding: type == 'swatch' ? "0" : "20px"
                   }}
                   value={value} 
                   onClick={selectFunction}
                   >
-                    {value.startsWith("#") ? " " : value }
+                    {type == 'swatch' ? " " : value }
                     </button>
                   </div>
                 ))} 
@@ -173,7 +166,8 @@ render(){
   function mapStateProps(state){
     return{
         currency: state.currency,
-        cartItem: state.cartItem
+        cartItem: state.cartItem,
+        selected: state.selected
     };
 }
 
