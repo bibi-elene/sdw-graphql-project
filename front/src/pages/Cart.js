@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Header from '../Components/Header';
-
+import { Link } from 'react-router-dom';
 
 /* 
 <img width="100" src={x.gallery[0]}></img>
@@ -81,7 +81,10 @@ export class Cart extends Component {
             </section>
         ) 
     } else {
-        return <div> Empty Cart</div>
+        return <div style={{margin: "50px"}}> 
+                    <Link to="/" style={{border: "1px solid black", padding: "5px 10px", color: "black"}}> Back </Link>
+                    <h1>Empty Cart</h1>
+                </div>
     }
         }
       }

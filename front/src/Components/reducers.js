@@ -50,8 +50,6 @@ const initialState = {
         return {...state, category: state.category = "TECH", queryType: state.queryType = GET_TECH};
       
       case "ADD_CART":
-        state.numberCart++;
-
         let itemPrices = action.payload.prices.map(({amount, currency}) => currency.symbol == state.currency ? currency.symbol + amount : null);
         let itemAttributes = action.payload.attributes.map(({items, id, name, type}) => items.map(({value, id}) => id));
         let defaultValues = itemAttributes.map(x => x[0]);
@@ -64,6 +62,9 @@ const initialState = {
         ? 
         chosen.push(y) : null));
 
+      if (itemAttributes.length === chosen.length) {
+
+        state.numberCart++;
 
         if  (state.numberCart == 0) {
            state.cartItem = {
@@ -82,7 +83,7 @@ const initialState = {
         else  {
           let check = false;
           state.cart.map((item,key)=>{
-              if(item.id == action.payload.id){
+              if(item.id == action.payload.id && JSON.stringify(item.selected) == JSON.stringify(chosen)){
                   state.cart[key].quantity++;
                   check = true;
                 }
@@ -104,12 +105,14 @@ const initialState = {
           }
       }
 
-      console.log(state.cart)
 
       return{
           ...state,
           numberCart: state.numberCart++
       }
+    } else {
+      return {...state, numberCart: state.numberCart}
+    }
 
       case "INCREASE": 
         state.numberCart++;
