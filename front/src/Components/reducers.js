@@ -55,42 +55,68 @@ const initialState = {
         let defaultValues = itemAttributes.map(x => x[0]);
         let chosen = [];
 
-        const chosenAttr = itemAttributes.map(x => x.filter(y =>  
-        document.getElementById(y).style.backgroundColor == "black" 
-        || 
-        document.getElementById(y).style.border == "2px solid green"
-        ? 
-        chosen.push(y) : null));
-
-      if (itemAttributes.length === chosen.length) {
-
-        state.numberCart++;
-
-        if  (state.numberCart == 0) {
-           state.cartItem = {
-              id:action.payload.id,
-              quantity:1,
-              name:action.payload.name,
-              brand:action.payload.brand,
-              prices: itemPrices,
-              gallery: action.payload.gallery[0],
-              attributes: action.payload.attributes,
-              selected: chosen,
-              selectedSeveral: defaultValues
+        if (action.plp == false) {
+          const chosenAttr = itemAttributes.map(x => x.filter(y =>  
+          document.getElementById(y).style.backgroundColor == "black" 
+          || 
+          document.getElementById(y).style.border == "2px solid green"
+          ? 
+          chosen.push(y) : null));
           }
-          state.cart.push(state.cartItem); 
-        }
-        else  {
-          let check = false;
-          state.cart.map((item,key)=>{
-              if(item.id == action.payload.id && JSON.stringify(item.selected) == JSON.stringify(chosen)){
-                  state.cart[key].quantity++;
-                  check = true;
-                }
-          });
 
-          if (!check) {
-               state.cartItem = {
+        if (action.plp == true) {
+          state.numberCart++;
+
+          if  (state.numberCart == 0) {
+            state.cartItem = {
+                id:action.payload.id,
+                quantity:1,
+                name:action.payload.name,
+                brand:action.payload.brand,
+                prices: itemPrices,
+                gallery: action.payload.gallery[0],
+                attributes: action.payload.attributes,
+                selected: defaultValues,
+            }
+            state.cart.push(state.cartItem); 
+          }
+          else  {
+            let check = false;
+            state.cart.map((item,key)=>{
+                if(item.id == action.payload.id){
+                    state.cart[key].quantity++;
+                    check = true;
+                  }
+            });
+
+            if (!check) {
+                state.cartItem = {
+                    id:action.payload.id,
+                    quantity:1,
+                    name:action.payload.name,
+                    brand:action.payload.brand,
+                    prices: itemPrices,
+                    gallery: action.payload.gallery[0],
+                    attributes: action.payload.attributes,
+                    selected: defaultValues,
+                }
+                state.cart.push(state.cartItem);
+            }
+        }
+
+
+          return{
+              ...state,
+              numberCart: state.numberCart++
+          }
+          }
+          
+          if (itemAttributes.length === chosen.length && action.payload.attributes.length > 0) {
+
+            state.numberCart++;
+
+            if  (state.numberCart == 0) {
+              state.cartItem = {
                   id:action.payload.id,
                   quantity:1,
                   name:action.payload.name,
@@ -99,20 +125,80 @@ const initialState = {
                   gallery: action.payload.gallery[0],
                   attributes: action.payload.attributes,
                   selected: chosen,
-                  selectedSeveral: defaultValues
               }
-              state.cart.push(state.cartItem);
+              state.cart.push(state.cartItem); 
+            }
+            else  {
+              let check = false;
+              state.cart.map((item,key)=>{
+                  if(item.id == action.payload.id && JSON.stringify(item.selected) == JSON.stringify(chosen)){
+                      state.cart[key].quantity++;
+                      check = true;
+                    }
+              });
+
+              if (!check) {
+                  state.cartItem = {
+                      id:action.payload.id,
+                      quantity:1,
+                      name:action.payload.name,
+                      brand:action.payload.brand,
+                      prices: itemPrices,
+                      gallery: action.payload.gallery[0],
+                      attributes: action.payload.attributes,
+                      selected: chosen,
+                  }
+                  state.cart.push(state.cartItem);
+              }
           }
-      }
 
 
-      return{
-          ...state,
-          numberCart: state.numberCart++
+          return{
+              ...state,
+              numberCart: state.numberCart++
+          }
+        } 
+        if (action.payload.attributes.length == 0) {
+          state.numberCart++;
+            if  (state.numberCart == 0) { 
+            state.cartItem = {
+              id:action.payload.id,
+              quantity:1,
+              name:action.payload.name,
+              brand:action.payload.brand,
+              prices: itemPrices,
+              gallery: action.payload.gallery[0],
+            }
+            state.cart.push(state.cartItem); 
+            } else  {
+            let check = false;
+            state.cart.map((item,key)=>{
+                if(item.id == action.payload.id){
+                    state.cart[key].quantity++;
+                    check = true;
+                  }
+            });
+                if (!check) {
+                    state.cartItem = {
+                        id:action.payload.id,
+                        quantity:1,
+                        name:action.payload.name,
+                        brand:action.payload.brand,
+                        prices: itemPrices,
+                        gallery: action.payload.gallery[0],
+                    }
+                    state.cart.push(state.cartItem);
+                }
+        }
+            return{
+                ...state,
+                numberCart: state.numberCart++
+            }
       }
-    } else {
-      return {...state, numberCart: state.numberCart}
-    }
+        
+          else {
+            return {...state, numberCart: state.numberCart}
+          }
 
       case "INCREASE": 
         state.numberCart++;
@@ -140,10 +226,10 @@ const initialState = {
         
       default: 
         return {
-            currency: state.currency = "$",
-            category: state.category = "ALL",
-            queryType: state.queryType = GET_All_PRODUCTS,
-            cart: state.cart = [],
+            currency: "$",
+            category:  "ALL",
+            queryType: GET_All_PRODUCTS,
+            cart: state.cart,
             numberCart: 0,
             cartItem: {
               id:'',

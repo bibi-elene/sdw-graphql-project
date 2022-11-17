@@ -2,13 +2,19 @@ import React, {Component} from 'react';
 import { Query } from "@apollo/client/react/components";
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
+import logo from '../whiteCart.png';
 
-//<p>inStock: {item.inStock ? "true" : "false"}</p> 
+/*
+      
+*/
 
 export class DisplayProducts extends Component {
   
 render(){
 
+  window.onbeforeunload = () => {
+    localStorage.setItem(this.props.cart, this.props.cart)
+  }
 
     return ( 
 
@@ -26,7 +32,8 @@ render(){
     <section key={index}  className='products-section' style={{width: "100%"}}>  
       <div className='products-div'>
         <Link to={`/${item.id}`} style= {{color: "black"}}>
-        <img src={item.gallery[0]}></img>
+        <div className='products'>
+        <img style={{opacity: item.inStock ? 1 : 0.3}} src={item.gallery[0]}></img>
         <p>{item.brand} {item.name} </p>
         <p>
           {item.prices.map(({amount, currency}) => 
@@ -35,10 +42,16 @@ render(){
           </span>))
           }
         </p> 
-        <br />
-      </Link>
-      <button onClick={() => this.props.dispatch({type: "ADD_CART", payload: item})}>Add</button>
-      </div>
+        </div>
+        </Link>
+        {item.inStock && item.attributes.length == 0
+        ? 
+        <button onClick={() => this.props.dispatch({type: "ADD_CART", payload: item, plp: false})} className="btn-add"><img src={logo} ></img></button>
+        : !item.inStock ?
+        <p>.</p>
+        : 
+        <button onClick={() => this.props.dispatch({type: "ADD_CART", payload: item, plp: true})} className="btn-add"><img src={logo} ></img></button>}       
+        </div>
       </section>
     ))} </>
     )

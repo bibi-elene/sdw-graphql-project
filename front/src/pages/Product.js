@@ -42,10 +42,7 @@ render(){
         Object.assign(x.style, {border: localStorage.getItem('border')})
 
         )
-
     }
-
-
 
     // parse description from html to text
     const parseStr = (x) => {
@@ -143,14 +140,14 @@ render(){
             <div style={{marginTop: "5vw"}}>
               <button className="btn-product"
               style={{
-              backgroundColor: "#5ECE7B", 
+              backgroundColor: data.product.inStock ? "#5ECE7B" : "grey", 
               padding: "16px 32px", 
               border: "none", 
               color: "white", 
-              fontWeight: "600"}} 
-              onClick={() => this.props.dispatch({type: "ADD_CART", payload: data.product})}>
-                ADD TO CART
-              </button>
+              fontWeight: "600"}}
+              onClick={data.product.inStock ? () => this.props.dispatch({type: "ADD_CART", payload: data.product}) : null}>
+                {data.product.inStock ? "ADD TO CART" : "OUT OF STOCK"}
+              </button>                        
             </div>
             <p style={{marginTop: "20px", width: "auto", maxWidth: "80%", fontFamily: "Roboto Condensed", fontWeight: "400", lineHeight: "16px"}}>{parseStr(data.product.description)}</p>
           </div> 

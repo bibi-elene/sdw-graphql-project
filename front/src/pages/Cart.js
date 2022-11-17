@@ -26,7 +26,9 @@ export class Cart extends Component {
                             <p>
                                 {x.prices}
                                 </p> 
-                {x.attributes.map(({type, name, items, id}) => (
+                
+                {x.attributes ? 
+                x.attributes.map(({type, name, items, id}) => (
                 <div key={id} id="attributes" style={{padding: "5px"}}> 
                 <span style={{fontWeight: "600", fontFamily: "Roboto Condensed"}}> {name}: </span> 
                 <br /> 
@@ -59,13 +61,14 @@ export class Cart extends Component {
                   value={value} 
                   >
                    {type == 'swatch' ? " " : value}
-                   {x.selected.forEach(x => x)}
                     </a>
                   </div>
                 ))} 
 
                 </div>
-              ))}
+              ))
+              : null
+              }
                             <div>
                             <button onClick={() => this.props.dispatch({type: "INCREASE", payload: x})}> + </button> 
                             <button onClick={() => this.props.dispatch({type: "DECREASE", payload: x})}> - </button>
