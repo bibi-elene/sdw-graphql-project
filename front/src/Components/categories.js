@@ -34,9 +34,7 @@ export class Categories extends Component {
                     fontSize: "16px"}} 
                     to={'/'}
                     >
-
                         {item.name.toUpperCase()}
-
                 </Link>
                 ))}
             </section>

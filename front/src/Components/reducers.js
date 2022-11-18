@@ -20,7 +20,8 @@ const initialState = {
       attributes: [],
       selected: [],
       selectedSeveral: []
-    }
+    },
+    totalPrice: 0
   }
   
   const reducer = (state = initialState, action) => {
@@ -50,7 +51,7 @@ const initialState = {
         return {...state, category: state.category = "TECH", queryType: state.queryType = GET_TECH};
       
       case "ADD_CART":
-        let itemPrices = action.payload.prices.map(({amount, currency}) => currency.symbol == state.currency ? currency.symbol + amount : null);
+        let itemPrices = action.payload.prices.map(({amount, currency}) => currency.symbol + amount);
         let itemAttributes = action.payload.attributes.map(({items, id, name, type}) => items.map(({value, id}) => id));
         let defaultValues = itemAttributes.map(x => x[0]);
         let chosen = [];

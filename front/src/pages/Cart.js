@@ -23,9 +23,7 @@ export class Cart extends Component {
                             <div>
                             <h1>{x.brand}</h1> 
                             <h1>{x.name}</h1> 
-                            <p>
-                                {x.prices}
-                                </p> 
+                            <p> {x.prices.filter(x => x[0] == this.props.currency[0])}</p> 
                 
                 {x.attributes ? 
                 x.attributes.map(({type, name, items, id}) => (
@@ -80,6 +78,7 @@ export class Cart extends Component {
                             </div>     
                         </div>
                     ))}
+                    {this.props.cart.map((x) => x.quantity).reduce((x,y) => x + y)}
                 </div>
             </section>
         ) 

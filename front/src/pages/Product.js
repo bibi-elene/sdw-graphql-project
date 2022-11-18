@@ -145,9 +145,10 @@ render(){
               border: "none", 
               color: "white", 
               fontWeight: "600"}}
-              onClick={data.product.inStock ? () => this.props.dispatch({type: "ADD_CART", payload: data.product}) : null}>
+              onClick={data.product.inStock ? () => this.props.dispatch({type: "ADD_CART", payload: data.product, plp: false}) : null}>
                 {data.product.inStock ? "ADD TO CART" : "OUT OF STOCK"}
-              </button>                        
+              </button>                 
+        
             </div>
             <p style={{marginTop: "20px", width: "auto", maxWidth: "80%", fontFamily: "Roboto Condensed", fontWeight: "400", lineHeight: "16px"}}>{parseStr(data.product.description)}</p>
           </div> 
