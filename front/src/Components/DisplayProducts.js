@@ -4,17 +4,10 @@ import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../whiteCart.png';
 
-/*
-      
-*/
 
 export class DisplayProducts extends Component {
   
 render(){
-
-  window.onbeforeunload = () => {
-    localStorage.setItem(this.props.cart, this.props.cart)
-  }
 
     return ( 
 
@@ -66,6 +59,7 @@ render(){
         currency: state.currency,
         queryType: state.queryType,
         cart: state.cart,
+        numberCart: state.numberCart
     };
   }
 

@@ -18,7 +18,9 @@ class MiniCart extends Component {
                 <img src={logo}></img> 
                 {this.props.numberCart > 0 ?
                 <div style={{alignItems: "center"}}>
-                    <span style={{background: "black", padding: "2px 8px", borderRadius: "50%", color: "white", position: "absolute", right: "-15px", top: "-10px", fontFamily: "Roboto", fontWeight: "700"}}>{this.props.numberCart}</span>
+                    <span style={{background: "black", padding: "2px 8px", borderRadius: "50%", color: "white", position: "absolute", right: "-15px", top: "-10px", fontFamily: "Roboto", fontWeight: "700"}}>
+                        {localStorage.getItem('NumberCart')}
+                        </span>
                     </div> 
                 : null}
             </Link>

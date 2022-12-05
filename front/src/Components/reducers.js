@@ -3,9 +3,8 @@ import { GET_All_PRODUCTS } from './Queries';
 import { GET_CLOTHES } from './Queries';
 import { GET_TECH } from './Queries';
 
-
 const initialState = {
-    currency: "",
+    currency: "$",
     category: "",
     cart: [],
     queryType: GET_All_PRODUCTS,
@@ -21,24 +20,28 @@ const initialState = {
       selected: [],
       selectedSeveral: []
     },
-    totalPrice: 0
   }
   
   const reducer = (state = initialState, action) => {
     switch(action.type) {
       case "$":
+        localStorage.setItem('Currency', "$")
         return {...state, currency: state.currency = "$"};
   
       case "£":
+        localStorage.setItem('Currency', "£")
         return {...state, currency: state.currency = "£"};
   
       case "A$":
+        localStorage.setItem('Currency', "A$")
         return {...state, currency: state.currency = "A$"};
   
       case "¥":
+        localStorage.setItem('Currency', "¥")
         return {...state, currency: state.currency = "¥"};
   
       case "₽":
+        localStorage.setItem('Currency', "₽")
         return {...state, currency: state.currency = "₽"};
 
       case "ALL":
@@ -67,6 +70,8 @@ const initialState = {
 
         if (action.plp == true) {
           state.numberCart++;
+          localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+          localStorage.setItem('Cart', JSON.stringify(state.cart));
 
           if  (state.numberCart == 0) {
             state.cartItem = {
@@ -115,6 +120,8 @@ const initialState = {
           if (itemAttributes.length === chosen.length && action.payload.attributes.length > 0) {
 
             state.numberCart++;
+            localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+            localStorage.setItem('Cart', JSON.stringify(state.cart));
 
             if  (state.numberCart == 0) {
               state.cartItem = {
@@ -161,6 +168,10 @@ const initialState = {
         } 
         if (action.payload.attributes.length == 0) {
           state.numberCart++;
+          localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+          localStorage.setItem('Cart', JSON.stringify(state.cart));
+
+
             if  (state.numberCart == 0) { 
             state.cartItem = {
               id:action.payload.id,
@@ -203,23 +214,29 @@ const initialState = {
 
       case "INCREASE": 
         state.numberCart++;
+        localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+        localStorage.setItem('Cart', JSON.stringify(state.cart));
+
       
-        return{...state, cart: state.cart.map(item =>
-        item.id === action.payload.id
+        return{...state, cart: state.cart.map((item, key) =>
+        item.id === action.payload.id && JSON.stringify(action.payload.selected) == JSON.stringify(state.cart[key].selected)
           ? {...item, quantity: item.quantity + 1}
           : item,
       ),}
       
       case "DECREASE": 
         state.numberCart--;
+        localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+        localStorage.setItem('Cart', JSON.stringify(state.cart));
 
       if (action.payload.quantity > 1) {
-        return {...state, cart: state.cart.map(item =>
-          item.id === action.payload.id 
-            ? {...item, quantity: item.quantity - 1}
-            : item,
-        ),}
-        } 
+        state.cart.map((item,key)=>{
+          if(item.id == action.payload.id && JSON.stringify(action.payload.selected) == JSON.stringify(state.cart[key].selected)){
+              state.cart[key].quantity--;
+            }
+      })
+      return {...state}
+    }
       else {
         return {...state, cart: state.cart.filter(item => item !== action.payload)}
         }
@@ -241,7 +258,6 @@ const initialState = {
               gallery: '',
               attributes: [],
               selected: [],
-              selectedSeveral: []
             }
             };
     }

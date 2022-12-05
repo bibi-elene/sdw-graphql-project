@@ -3,17 +3,11 @@ import {connect} from 'react-redux';
 import Header from '../Components/Header';
 import { Link } from 'react-router-dom';
 
-/* 
-<img width="100" src={x.gallery[0]}></img>
-<h1>{x.brand}</h1>
-
-*/
-
 export class Cart extends Component {
   
     render(){
-
-    if (this.props.cart[0] !== undefined) {   
+        
+    if (this.props.cart.length > 0) {   
         return (
             <section>
                 <Header />
@@ -23,7 +17,7 @@ export class Cart extends Component {
                             <div>
                             <h1>{x.brand}</h1> 
                             <h1>{x.name}</h1> 
-                            <p> {x.prices.filter(x => x[0] == this.props.currency[0])}</p> 
+                            <p> {x.prices.filter(x => x[0] == this.props.currency[0])}</p>                             
                 
                 {x.attributes ? 
                 x.attributes.map(({type, name, items, id}) => (
@@ -78,7 +72,10 @@ export class Cart extends Component {
                             </div>     
                         </div>
                     ))}
-                    {this.props.cart.map((x) => x.quantity).reduce((x,y) => x + y)}
+                    {/* Total Amount Calculation */}
+                    <h3>Tax 21%: {this.props.currency + Math.round((this.props.cart.map((x) => x.quantity * x.prices.filter(x => x[0] == this.props.currency[0])[0].replace(/[^0-9.]/g, "")).reduce((x,y) => x + y) * 21 / 100 + Number.EPSILON) * 100) / 100 }</h3>
+                    <h3>Quantity: {JSON.parse(localStorage.getItem('NumberCart'))}</h3>
+                    <h3>Total: {this.props.currency + Math.round(((this.props.cart.map((x) => x.quantity * x.prices.filter(x => x[0] == this.props.currency[0])[0].replace(/[^0-9.]/g, "")).reduce((x,y) => x + y) - this.props.cart.map((x) => x.quantity * x.prices.filter(x => x[0] == this.props.currency[0])[0].replace(/[^0-9.]/g, "")).reduce((x,y) => x + y) * 21 / 100) + Number.EPSILON) * 100) / 100 }</h3>
                 </div>
             </section>
         ) 
@@ -95,7 +92,8 @@ export class Cart extends Component {
         return {
             currency: state.currency,
             queryType: state.queryType,
-            cart: state.cart
+            cart: state.cart,
+            numberCart: state.numberCart
         };
     }
     

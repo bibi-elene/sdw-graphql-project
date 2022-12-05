@@ -6,10 +6,6 @@ import { withRouter } from '../Components/withRouter';
 import Header from '../Components/Header';
 import { GET_PRODUCT } from '../Components/Queries';
 
-// Images, brand, name, attributes =>  name, items => value (sizes, colors), price, addToCart button
-
-//<p>inStock: {item.inStock ? "true" : "false"}</p>
-
 class Product extends Component {
   constructor(props){
     super(props);
