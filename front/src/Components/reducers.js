@@ -3,7 +3,7 @@ import { GET_All_PRODUCTS } from './Queries';
 import { GET_CLOTHES } from './Queries';
 import { GET_TECH } from './Queries';
 
-const cartItems = sessionStorage.getItem('Cart') !== null ? JSON.parse(sessionStorage.getItem('Cart')) : [];
+const cartItems = localStorage.getItem('Cart') !== null ? JSON.parse(localStorage.getItem('Cart')) : [];
 const totalNumber = cartItems.length > 0 ? cartItems.reduce((x, y) => x.quantity + y.quantity) : 0;
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
     category: "",
     cart: cartItems,
     queryType: GET_All_PRODUCTS,
-    numberCart: JSON.parse(sessionStorage.getItem('NumberCart')),
+    numberCart: JSON.parse(localStorage.getItem('NumberCart')),
     cartItem: {
       id:'',
       quantity: 0,
@@ -28,23 +28,23 @@ const initialState = {
   const reducer = (state = initialState, action) => {
     switch(action.type) {
       case "$":
-        sessionStorage.setItem('Currency', "$")
+        localStorage.setItem('Currency', "$")
         return {...state, currency: state.currency = "$"};
   
       case "£":
-        sessionStorage.setItem('Currency', "£")
+        localStorage.setItem('Currency', "£")
         return {...state, currency: state.currency = "£"};
   
       case "A$":
-        sessionStorage.setItem('Currency', "A$")
+        localStorage.setItem('Currency', "A$")
         return {...state, currency: state.currency = "A$"};
   
       case "¥":
-        sessionStorage.setItem('Currency', "¥")
+        localStorage.setItem('Currency', "¥")
         return {...state, currency: state.currency = "¥"};
   
       case "₽":
-        sessionStorage.setItem('Currency', "₽")
+        localStorage.setItem('Currency', "₽")
         return {...state, currency: state.currency = "₽"};
 
       case "ALL":
@@ -63,8 +63,8 @@ const initialState = {
         let chosen = [];
 
         window.onbeforeunload = () => {
-          sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-          sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
+          localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+          localStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
         }
 
         state.numberCart++;
@@ -203,13 +203,13 @@ const initialState = {
       case "INCREASE": 
 
        state.numberCart++;
-       sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-       sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));      
+       localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+       localStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));      
            
 
       window.onbeforeunload = () => {
-        sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-        sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
+        localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+        localStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
       }
 
  
@@ -224,13 +224,13 @@ const initialState = {
       case "DECREASE": 
 
       state.numberCart--;
-      sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-      sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));
+      localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+      localStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));
 
 
       window.onbeforeunload = () => {
-        sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-        sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
+        localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+        localStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
       }
 
    
