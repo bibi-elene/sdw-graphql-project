@@ -13,13 +13,14 @@ import Cart from './Cart';
 class MiniCart extends Component {
 
     render(){
+
         return (
             <Link to="/Cart" className='header' style={{float:"right", position: "absolute", right: "-35px", top: "0"}}>
                 <img src={logo}></img> 
                 {this.props.numberCart > 0 ?
                 <div style={{alignItems: "center"}}>
                     <span style={{background: "black", padding: "2px 8px", borderRadius: "50%", color: "white", position: "absolute", right: "-15px", top: "-10px", fontFamily: "Roboto", fontWeight: "700"}}>
-                        {localStorage.getItem('NumberCart')}
+                        {this.props.numberCart}
                         </span>
                     </div> 
                 : null}
@@ -32,7 +33,8 @@ class MiniCart extends Component {
 
 function mapStateProps(state){
     return{
-        numberCart: state.numberCart
+        numberCart: state.numberCart,
+        cart: state.cart
     };
 }
 

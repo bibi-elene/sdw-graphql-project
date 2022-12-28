@@ -3,12 +3,15 @@ import { GET_All_PRODUCTS } from './Queries';
 import { GET_CLOTHES } from './Queries';
 import { GET_TECH } from './Queries';
 
+const cartItems = sessionStorage.getItem('Cart') !== null ? JSON.parse(sessionStorage.getItem('Cart')) : [];
+const totalNumber = cartItems.length > 0 ? cartItems.reduce((x, y) => x.quantity + y.quantity) : 0;
+
 const initialState = {
     currency: "$",
     category: "",
-    cart: [],
+    cart: cartItems,
     queryType: GET_All_PRODUCTS,
-    numberCart: 0,
+    numberCart: JSON.parse(sessionStorage.getItem('NumberCart')),
     cartItem: {
       id:'',
       quantity: 0,
@@ -25,23 +28,23 @@ const initialState = {
   const reducer = (state = initialState, action) => {
     switch(action.type) {
       case "$":
-        localStorage.setItem('Currency', "$")
+        sessionStorage.setItem('Currency', "$")
         return {...state, currency: state.currency = "$"};
   
       case "£":
-        localStorage.setItem('Currency', "£")
+        sessionStorage.setItem('Currency', "£")
         return {...state, currency: state.currency = "£"};
   
       case "A$":
-        localStorage.setItem('Currency', "A$")
+        sessionStorage.setItem('Currency', "A$")
         return {...state, currency: state.currency = "A$"};
   
       case "¥":
-        localStorage.setItem('Currency', "¥")
+        sessionStorage.setItem('Currency', "¥")
         return {...state, currency: state.currency = "¥"};
   
       case "₽":
-        localStorage.setItem('Currency', "₽")
+        sessionStorage.setItem('Currency', "₽")
         return {...state, currency: state.currency = "₽"};
 
       case "ALL":
@@ -59,6 +62,13 @@ const initialState = {
         let defaultValues = itemAttributes.map(x => x[0]);
         let chosen = [];
 
+        window.onbeforeunload = () => {
+          sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+          sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
+        }
+
+        state.numberCart++;
+
         if (action.plp == false) {
           const chosenAttr = itemAttributes.map(x => x.filter(y =>  
           document.getElementById(y).style.backgroundColor == "black" 
@@ -69,10 +79,6 @@ const initialState = {
           }
 
         if (action.plp == true) {
-          state.numberCart++;
-          localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-          localStorage.setItem('Cart', JSON.stringify(state.cart));
-
           if  (state.numberCart == 0) {
             state.cartItem = {
                 id:action.payload.id,
@@ -111,18 +117,10 @@ const initialState = {
         }
 
 
-          return{
-              ...state,
-              numberCart: state.numberCart++
-          }
+          return{...state}
           }
           
           if (itemAttributes.length === chosen.length && action.payload.attributes.length > 0) {
-
-            state.numberCart++;
-            localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-            localStorage.setItem('Cart', JSON.stringify(state.cart));
-
             if  (state.numberCart == 0) {
               state.cartItem = {
                   id:action.payload.id,
@@ -161,17 +159,9 @@ const initialState = {
           }
 
 
-          return{
-              ...state,
-              numberCart: state.numberCart++
-          }
+          return{...state}
         } 
         if (action.payload.attributes.length == 0) {
-          state.numberCart++;
-          localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-          localStorage.setItem('Cart', JSON.stringify(state.cart));
-
-
             if  (state.numberCart == 0) { 
             state.cartItem = {
               id:action.payload.id,
@@ -203,44 +193,60 @@ const initialState = {
                 }
         }
             return{
-                ...state,
-                numberCart: state.numberCart++
-            }
+                ...state}
       }
         
           else {
-            return {...state, numberCart: state.numberCart}
+            return {...state}
           }
 
       case "INCREASE": 
-        state.numberCart++;
-        localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-        localStorage.setItem('Cart', JSON.stringify(state.cart));
 
-      
-        return{...state, cart: state.cart.map((item, key) =>
-        item.id === action.payload.id && JSON.stringify(action.payload.selected) == JSON.stringify(state.cart[key].selected)
-          ? {...item, quantity: item.quantity + 1}
-          : item,
-      ),}
+       state.numberCart++;
+       sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+       sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));      
+           
+
+      window.onbeforeunload = () => {
+        sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+        sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
+      }
+
+ 
+        state.cart.map((item,key)=>{
+          if(item.id == action.payload.id && JSON.stringify(action.payload.selected) == JSON.stringify(state.cart[key].selected)){
+              state.cart[key].quantity++;
+              }
+        })
+
+        return {...state};
       
       case "DECREASE": 
-        state.numberCart--;
-        localStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
-        localStorage.setItem('Cart', JSON.stringify(state.cart));
 
+      state.numberCart--;
+      sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+      sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));
+
+
+      window.onbeforeunload = () => {
+        sessionStorage.setItem('NumberCart', JSON.stringify(state.numberCart));
+        sessionStorage.setItem('Cart', JSON.stringify(state.cart.map(x => x)));   
+      }
+
+   
       if (action.payload.quantity > 1) {
         state.cart.map((item,key)=>{
           if(item.id == action.payload.id && JSON.stringify(action.payload.selected) == JSON.stringify(state.cart[key].selected)){
-              state.cart[key].quantity--;
+              state.cart[key].quantity--;  
             }
       })
-      return {...state}
+        return {...state};
     }
       else {
-        return {...state, cart: state.cart.filter(item => item !== action.payload)}
+        const indexOf = state.cart.indexOf(action.payload);
+        state.cart.splice(indexOf, 1);
+        return {...state};
         }
-
         
       default: 
         return {
@@ -248,7 +254,7 @@ const initialState = {
             category:  "ALL",
             queryType: GET_All_PRODUCTS,
             cart: state.cart,
-            numberCart: 0,
+            numberCart: state.numberCart,
             cartItem: {
               id:'',
               quantity: 0,

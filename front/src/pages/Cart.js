@@ -72,10 +72,10 @@ export class Cart extends Component {
                             </div>     
                         </div>
                     ))}
-                    {/* Total Amount Calculation */}
                     <h3>Tax 21%: {this.props.currency + Math.round((this.props.cart.map((x) => x.quantity * x.prices.filter(x => x[0] == this.props.currency[0])[0].replace(/[^0-9.]/g, "")).reduce((x,y) => x + y) * 21 / 100 + Number.EPSILON) * 100) / 100 }</h3>
-                    <h3>Quantity: {JSON.parse(localStorage.getItem('NumberCart'))}</h3>
+                    <h3>Quantity: {this.props.numberCart}</h3>
                     <h3>Total: {this.props.currency + Math.round(((this.props.cart.map((x) => x.quantity * x.prices.filter(x => x[0] == this.props.currency[0])[0].replace(/[^0-9.]/g, "")).reduce((x,y) => x + y) - this.props.cart.map((x) => x.quantity * x.prices.filter(x => x[0] == this.props.currency[0])[0].replace(/[^0-9.]/g, "")).reduce((x,y) => x + y) * 21 / 100) + Number.EPSILON) * 100) / 100 }</h3>
+                    
                 </div>
             </section>
         ) 
